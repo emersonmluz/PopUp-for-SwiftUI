@@ -43,7 +43,7 @@ struct PopUp: View {
                         Spacer()
                         Image(systemName: "xmark")
                             .font(.body)
-                            .foregroundColor(Color.black.opacity(0.8))
+                            .foregroundColor(Color.black.opacity(0.7))
                             .onTapGesture {
                                 withAnimation {
                                     isPresented.toggle()
