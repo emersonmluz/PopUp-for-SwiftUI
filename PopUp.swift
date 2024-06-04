@@ -54,7 +54,7 @@ struct PopUp: View {
                     Text(message)
                         .kerning(1.1)
                         .font(.body)
-                        .foregroundColor(Color.black)
+                        .foregroundColor(Color.black.opacity(7))
                         .multilineTextAlignment(.center)
                     Spacer().frame(height: 30)
                     VStack(spacing: 14) {
@@ -87,6 +87,7 @@ struct PopUp: View {
             Text(title)
                 .foregroundColor(Color.white)
                 .font(.title3)
+                .fontWeight(.bold)
                 .kerning(1.1)
                 .minimumScaleFactor(0.5)
                 .padding(.vertical, 8)
@@ -113,5 +114,3 @@ struct PopUp: View {
         }
     }
 }
-
-
