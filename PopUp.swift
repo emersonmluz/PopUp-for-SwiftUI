@@ -38,12 +38,12 @@ struct PopUp: View {
                             .kerning(1.1)
                             .font(.title2)
                             .fontWeight(.bold)
-                            .foregroundColor(Color.black.opacity(0.7))
+                            .foregroundColor(Color.black.opacity(0.8))
                             .multilineTextAlignment(.center)
                         Spacer()
                         Image(systemName: "xmark")
                             .font(.body)
-                            .foregroundColor(Color.black.opacity(0.7))
+                            .foregroundColor(Color.black.opacity(0.8))
                             .onTapGesture {
                                 withAnimation {
                                     isPresented.toggle()
@@ -54,7 +54,7 @@ struct PopUp: View {
                     Text(message)
                         .kerning(1.1)
                         .font(.body)
-                        .foregroundColor(Color.black.opacity(0.7))
+                        .foregroundColor(Color.black.opacity(0.8))
                         .multilineTextAlignment(.center)
                     Spacer().frame(height: 30)
                     VStack(spacing: 14) {
