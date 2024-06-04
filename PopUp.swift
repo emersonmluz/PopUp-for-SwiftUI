@@ -86,7 +86,7 @@ struct PopUp: View {
         } label: {
             Text(title)
                 .foregroundColor(Color.white)
-                .font(.title2)
+                .font(.title3)
                 .kerning(1.1)
                 .minimumScaleFactor(0.5)
                 .padding(.vertical, 8)
