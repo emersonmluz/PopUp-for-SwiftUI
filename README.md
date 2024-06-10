@@ -10,14 +10,6 @@
 
 O Pop-up deve ser declarado com a seguinte sintaxe:
 
-PopUp(isPresented: $isPresented,
-      title: "Conteúdo externo",
-      message: "O conteúdo será aberto em um aplicativo externo, deseja continuar?",
-      mainButtonTitle: "Continuar",
-      defaultButtonTitle: "Cancelar",
-      mainAction: { action() },
-      defaultAction: { isPresented.toggle() },
-      buttonsOrientation: .vertical
-)
+![código de exemplo](https://github.com/emersonmluz/PopUp-for-SwiftUI/assets/111133275/e9e3e7cb-a97f-4fcc-b71c-0120a7a71ab4)
 
 Atenção: O conteúdo do seu código deve estar em uma VStack e o PopUp deve ser o último componente.
