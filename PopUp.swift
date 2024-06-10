@@ -2,66 +2,62 @@ import SwiftUI
 
 struct PopUp: View {
     
+    //MARK: - Variables
     @Binding private var isPresented: Bool
     private let title: String
     private let message: String
     private let mainButtonTitle: String
-    private let alternativeButtonTitle: String
+    private let defaultButtonTitle: String
     private let mainAction: () -> Void
-    private let alternativeAction: () -> Void
-    private var popUpOpacity: Double {
-        if $isPresented.wrappedValue {
-            return 1
-        } else {
-            return 0
+    private let defaultAction: () -> Void
+    private let buttonsOrientation: ButtonsOrientation
+    
+    enum ButtonsOrientation {
+        case vertical
+        case horizontal
+    }
+    
+    private enum ButtonType {
+        case main
+        case defaultButton
+        
+        var backgroundColor: UIColor {
+            switch self {
+            case .main:
+                UIColor(red: 60/255, green: 179/255, blue: 113/255, alpha: 1)
+            case .defaultButton:
+                UIColor(red: 218/255, green: 165/255, blue: 32/255, alpha: 1)
+            }
         }
     }
     
-    init(isPresented: Binding<Bool>, title: String, message: String, mainButtonTitle: String, alternativeButtonTitle: String = "", mainAction: @escaping () -> Void, alternativeAction: @escaping () -> Void = {}) {
+    //MARK:  Init
+    init(isPresented: Binding<Bool>, title: String, message: String, mainButtonTitle: String = "", defaultButtonTitle: String = "", mainAction: @escaping () -> Void = {}, defaultAction: @escaping () -> Void = {}, buttonsOrientation: ButtonsOrientation = .vertical) {
         self.title = title
         self.message = message
         self._isPresented = isPresented
         self.mainButtonTitle = mainButtonTitle
-        self.alternativeButtonTitle = alternativeButtonTitle
+        self.defaultButtonTitle = defaultButtonTitle
         self.mainAction = mainAction
-        self.alternativeAction = alternativeAction
+        self.defaultAction = defaultAction
+        self.buttonsOrientation = buttonsOrientation
     }
     
+    //MARK: - Body
     var body: some View {
         ZStack {
             Color.black.opacity(0.4).ignoresSafeArea()
             HStack {
                 VStack {
-                    HStack(alignment: .top) {
-                        Spacer()
-                        Text(title)
-                            .kerning(1.1)
-                            .font(.title2)
-                            .fontWeight(.bold)
-                            .foregroundColor(Color.black.opacity(0.8))
-                            .multilineTextAlignment(.center)
-                        Spacer()
-                        Image(systemName: "xmark")
-                            .font(.body)
-                            .foregroundColor(Color.black.opacity(0.7))
-                            .onTapGesture {
-                                withAnimation {
-                                    isPresented.toggle()
-                                }
-                            }
-                    }
-                    Spacer().frame(height: 24)
-                    Text(message)
-                        .kerning(1.1)
-                        .font(.body)
-                        .foregroundColor(Color.black.opacity(0.8))
-                        .multilineTextAlignment(.center)
+                    PopUpTitle(title)
+                    Spacer().frame(height: 18)
+                    PopUpMessage(message)
                     Spacer().frame(height: 30)
-                    VStack(spacing: 14) {
-                        ButtonPopUp(type: .main, title: mainButtonTitle, action: mainAction)
-                        if alternativeButtonTitle != "" {
-                            ButtonPopUp(type: .alternative, title: alternativeButtonTitle, action: alternativeAction)
-                        }
+                    switch buttonsOrientation {
+                    case .vertical:
+                        VerticalButtons()
+                    case .horizontal:
+                        HorizontalButtons()
                     }
                 }
                 .minimumScaleFactor(0.5)
@@ -69,13 +65,33 @@ struct PopUp: View {
                 .padding(.top, -6)
                 .background(Color.white)
                 .clipShape(.rect(cornerRadius: 8)).border(Color.black, width: 0.5)
-                .opacity(popUpOpacity)
-                .animation(.easeIn(duration: 0.25), value: isPresented)
             }
             .frame(width: .infinity)
             .padding(.horizontal, 40)
         }
-        .opacity(popUpOpacity)
+        .opacity($isPresented.wrappedValue ? 1 : 0)
+        .animation(.easeIn(duration: 0.25), value: isPresented)
+        .onTapGesture {
+            isPresented.toggle()
+        }
+    }
+    
+    //MARK: - Design
+    private func PopUpTitle(_ title: String) -> some View {
+        Text(title)
+            .kerning(1.1)
+            .font(.title2)
+            .fontWeight(.bold)
+            .foregroundColor(Color.black.opacity(0.8))
+            .multilineTextAlignment(.center)
+    }
+    
+    private func PopUpMessage(_ message: String) -> some View {
+        Text(message)
+            .kerning(1.1)
+            .font(.body)
+            .foregroundColor(Color.black.opacity(0.8))
+            .multilineTextAlignment(.center)
     }
     
     private func ButtonPopUp(type: ButtonType, title: String, action: @escaping () -> Void) -> some View {
@@ -94,22 +110,31 @@ struct PopUp: View {
                 .padding(.horizontal, 22)
         }
         .frame(maxWidth: .infinity)
-        .background(type.backgroundColor)
+        .background(Color(type.backgroundColor))
         .border(Color.black, width: 0.4)
         .clipShape(RoundedRectangle(cornerRadius: 6))
         .minimumScaleFactor(0.5)
     }
     
-    enum ButtonType {
-        case main
-        case alternative
-        
-        var backgroundColor: Color {
-            switch self {
-            case .main:
-                Color.green
-            case .alternative:
-                Color.orange
+    //MARK: - Functions
+    private func VerticalButtons() -> some View {
+        VStack(spacing: 14) {
+            if mainButtonTitle != "" {
+                ButtonPopUp(type: .main, title: mainButtonTitle, action: mainAction)
+            }
+            if defaultButtonTitle != "" {
+                ButtonPopUp(type: .defaultButton, title: defaultButtonTitle, action: defaultAction)
+            }
+        }
+    }
+    
+    private func HorizontalButtons() -> some View {
+       return  HStack(spacing: 14) {
+            if mainButtonTitle != "" {
+                ButtonPopUp(type: .main, title: mainButtonTitle, action: mainAction)
+            }
+            if defaultButtonTitle != "" {
+                ButtonPopUp(type: .defaultButton, title: defaultButtonTitle, action: defaultAction)
             }
         }
     }
