@@ -6,7 +6,7 @@
 
 ![exemplo2](https://github.com/emersonmluz/PopUp-for-SwiftUI/assets/111133275/786fdc30-385a-4418-be0f-0f80b7d0e897)
 
-##Como Usar
+## Como Usar
 
 O Pop-up deve ser declarado com a seguinte sintaxe:
 
