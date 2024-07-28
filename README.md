@@ -12,4 +12,4 @@ O Pop-up deve ser declarado com a seguinte sintaxe:
 
 ![código de exemplo](https://github.com/emersonmluz/PopUp-for-SwiftUI/assets/111133275/e9e3e7cb-a97f-4fcc-b71c-0120a7a71ab4)
 
-Atenção: O conteúdo do seu código deve estar em uma VStack e o PopUp deve ser o último componente.
+Atenção: O conteúdo do seu código deve estar em uma ZStack e o PopUp deve ser o último componente.
